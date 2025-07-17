@@ -6,8 +6,17 @@ def main():
         # 각 요소를 float(실수)로 변환해 리스트 생성
         num_list = [float(n) for n in nums.split()]
 
-         # 선택 정렬 알고리즘으로 오름차순 정렬
+
+        # 선택 정렬 알고리즘으로 오름차순 정렬
+            # 가장 작은 걸 "선택해서 자리 잡기"	
+            # 맨 앞부터 정해가며 작은 값 찾아 교체
         n = len(num_list)
+
+        # 아무것도 입력안했을 때 예외처리
+        if n==0:
+            print("Invalid input.")
+            return
+
         for i in range(n):
             min_idx = i # 현재 위치를 최소값 인덱스로 가정
             for j in range(i + 1, n): # 현재 위치 i 다음부터 리스트 끝까지 탐색
@@ -18,9 +27,11 @@ def main():
 
         
         # 버블 정렬 알고리즘으로 오름차순 정렬
+            # 큰 걸 계속 "뒤로 밀어내기"
+            # 끝에서부터 큰 값을 버블처럼 띄움
         # n = len(num_list)
         # for i in range(n):
-            # for j in range(0, n - i - 1):
+            # for j in range(0, n - i - 1): # 아직 정렬되지 않은 범위만
                 #if num_list[j] > num_list[j + 1]:
                     # 두 값을 교환
                     # num_list[j], num_list[j + 1] = num_list[j + 1], num_list[j]
