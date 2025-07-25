@@ -1,5 +1,5 @@
 # 1. 적절한 리눅스 기반 Python 베이스 이미지 사용 (slim은 경량화 버전)
-FROM python:3-9-slim
+FROM python:3.9-slim
 
 # 2. 작업 디렉토리를 /app 으로 설정
 WORKDIR /app
@@ -15,7 +15,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 80
 
 # 6. 컨테이너 시작 시 실행할 명령어
-CMD ["gunicorn", "main:app", "--bind", "0.0.0.0:80"]
+CMD ["gunicorn", "app:app", "--bind", "0.0.0.0:80"]
 
 # * gunicorn: WSGI(Python 웹 앱과 웹 서버 간 연결 표준) 서버, WHY: Flask 같은 앱은 개발 서버만 제공 → 실제 배포 시엔 WSGI 서버가 필요
 # * main:app: main.py 안에 있는 app이라는 객체를 실행
