@@ -38,6 +38,7 @@ def main():
         
         # 정렬된 리스트 출력
         print("Sorted:", num_list)
+        
     except ValueError:
         # 숫자가 아닌 값이 입력된 경우 예외 처리
         print("Invalid number input.")
