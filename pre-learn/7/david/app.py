@@ -82,6 +82,13 @@ def index():
     # 웹사이트 처음 접속 시
     else:
         return render_template("index.html")
+    
+# '/menu' 라우트: menu.html 페이지를 렌더링
+# 문제5에서 요구한 메뉴 화면 추가 기능에 해당합니다.
+@app.route('/menu')
+def menu():
+    # 'templates' 폴더에 있는 'menu.html' 파일을 렌더링하여 반환합니다.
+    return render_template('menu.html')
 
 # Flask 애플리케이션 실행 설정
 # host='0.0.0.0': 외부 접속 허용, port=80: 포트 80번 고정
