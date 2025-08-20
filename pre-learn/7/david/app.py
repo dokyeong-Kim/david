@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request   # Flask 웹 프레임워크에서 필요한 모듈 가져오기
-from gtts import gTTS                               # Google Text-to-Speech 모듈 가져오기
-import base64                                       # 음성 데이터를 브라우저에서 재생 가능하도록 인코딩하는 데 사용
-import io                                           # 메모리에서 파일 객체를 다루기 위한 모듈
-import datetime                                     # 로그에 시간 기록을 위한 모듈
-import re                                           # 정규표현식 모듈 (입력 검증용)
+from flask import Flask, render_template, request
+from gtts import gTTS
+import base64
+import io
+import datetime
+import re
+import socket  # socket 모듈을 import합니다.
 
 # 사용자 정의 예외 클래스 정의 (입력 검증 실패 시 사용)
 class ValidationError(Exception):
@@ -42,6 +43,12 @@ ALLOWED_LANGUAGES = {'ko', 'en', 'ja', 'es'}
 # POST 요청 시: TTS 변환 수행 및 결과 출력 (서버에 데이터 제출 or 생성 시 사용)
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    # render_template 호출 이전에 hostname 변수를 정의합니다.
+    if app.debug:
+        hostname = '컴퓨터(인스턴스) : ' + socket.gethostname()
+    else:
+        hostname = ' '
+
     # POST 요청인 경우
     if request.method == 'POST':
         # 입력된 텍스트를 폼 데이터에서 가져옴
@@ -69,26 +76,28 @@ def index():
                 timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 log_file.write(f"[{timestamp}] Text: {text} | Lang: {lang}\n")
 
-            # 변환된 음성과 함께 템플릿(index.html) 렌더링 -> 사용자에게 바로 재생되는 오디오 제공 + 저장 링크
-            return render_template("index.html", audio=encoded_audio, audio_filename="tts_output.mp3")
+            # 변환된 음성과 함께 템플릿(index.html) 렌더링
+            # hostname 변수를 인자로 추가합니다.
+            return render_template("index.html", audio=encoded_audio, audio_filename="tts_output.mp3", computername=hostname)
 
         # 입력 유효성 검사 실패 또는 gTTS 예외 발생 시 에러 메세지 출력
         except ValidationError as ve:
-            return render_template("index.html", error=str(ve))
+            return render_template("index.html", error=str(ve), computername=hostname)
         except Exception:
-            return render_template("index.html", error="⚠️ 음성 변환에 실패했습니다.")
+            return render_template("index.html", error="⚠️ 음성 변환에 실패했습니다.", computername=hostname)
 
     # GET 요청일 경우: 음성 입력 폼만 렌더링하여 사용자에게 보여줌
     # 웹사이트 처음 접속 시
     else:
-        return render_template("index.html")
-    
+        # hostname 변수를 인자로 추가합니다.
+        return render_template("index.html", computername=hostname)
+
+
 # '/menu' 라우트: menu.html 페이지를 렌더링
-# 문제5에서 요구한 메뉴 화면 추가 기능에 해당합니다.
 @app.route('/menu')
 def menu():
-    # 'templates' 폴더에 있는 'menu.html' 파일을 렌더링하여 반환합니다.
     return render_template('menu.html')
+
 
 # Flask 애플리케이션 실행 설정
 # host='0.0.0.0': 외부 접속 허용, port=80: 포트 80번 고정
