@@ -6,9 +6,9 @@ import datetime
 import re
 import socket  # socket 모듈을 import합니다.
 
-@app.route("/test2")
+@app.route("/test4")
 def test2():
-    return render_template('test2.html')
+    return render_template('test4.html')
 
 # 사용자 정의 예외 클래스 정의 (입력 검증 실패 시 사용)
 class ValidationError(Exception):
