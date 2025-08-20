@@ -102,4 +102,4 @@ def menu():
 # Flask 애플리케이션 실행 설정
 # host='0.0.0.0': 외부 접속 허용, port=80: 포트 80번 고정
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=80)
+    app.run(host='0.0.0.0', port=8080)  # debug=True로 설정하면 코드 변경 시 자동으로 서버 재시작
