@@ -6,6 +6,7 @@ import datetime
 import re
 import socket  # socket 모듈을 import합니다.
 
+# error test1,2 
 @app.route("/test1")
 def test1():
     return render_template('test1.html')
